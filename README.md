@@ -12,7 +12,7 @@ Once the extension is correctly loaded and you've inserted the appropriate contr
 
 ## How to use ##
 
-** You can have a look at the example in the repository to check it works, and how it works.**
+** You can have a look at the example in the repository to check it works, and how it works. **
 
 1. Install by copying the `automatic` folder from the repository to your deck.js `extensions`' folder.
 
