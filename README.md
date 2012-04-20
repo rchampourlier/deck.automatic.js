@@ -23,6 +23,11 @@ Once the extension is correctly loaded and you've inserted the appropriate contr
 4. You **MUST** add a `.deck-automatic-link` element to your `.deck-container` element. The extension currently relies on this element to work. If you don't want to display it, you can just hide it through CSS, this won't prevent it from working.
 
 	For example, you can add: `<div class='deck-automatic-link' title="Play/Pause">Play/Pause</div>` at the end of your `.deck-container` element.
+
+5. Custom slide durations may be specified with a custom data-duration
+  attribute specified in milliseconds
+  (`<div class="slide" data-duration="5000">content</div>`). This attribute
+  overrides the default slide duration.
 	
 ## Configuration
 

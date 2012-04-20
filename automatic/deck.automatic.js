@@ -32,6 +32,12 @@ This module adds automatic control of the deck.
 			
 			var slides = $[deck]('getSlides');
 			
+			var duration = opts.automatic.slideDuration;
+			var customDuration = $[deck]('getSlide', to).attr("data-duration");
+			if(customDuration){
+			  duration = customDuration;
+			}
+			
 			if (to == slides.length-1) {
 				// setTimeout... called when going to last slide. 
 				// If cycling, set a timeout to go to first slide, else don't set a timeout, and set
@@ -41,7 +47,7 @@ This module adds automatic control of the deck.
 						timeout: window.setTimeout(function() {
 							$[deck]('go', 0);
 							if (e) e.preventDefault();
-						}, opts.automatic.slideDuration)
+						}, duration)
 					};
 				}
 				else {
@@ -55,7 +61,7 @@ This module adds automatic control of the deck.
 					timeout: window.setTimeout(function() {
 						$[deck]('next');
 						if (e) e.preventDefault();
-					}, opts.automatic.slideDuration)
+					}, duration)
 				};
 			}
 		}
