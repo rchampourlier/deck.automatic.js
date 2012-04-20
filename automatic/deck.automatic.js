@@ -11,6 +11,7 @@ This module adds automatic control of the deck.
 */
 (function($, deck, undefined) {
 	var $d = $(document);
+	var running = false;
 	
 	clearAutomaticTimeout = function() {
 		if ($[deck].automatic && $[deck].automatic.timeout) {
@@ -27,10 +28,16 @@ This module adds automatic control of the deck.
 		
 		var opts = $[deck]('getOptions');
 
-		if ($(opts.selectors.automaticLink).hasClass(opts.classes.automaticRunning)) {
+		if (running) {
 			// Slideshow running.
 			
 			var slides = $[deck]('getSlides');
+			
+			var duration = opts.automatic.slideDuration;
+			var customDuration = $[deck]('getSlide', to).attr("data-duration");
+			if(customDuration){
+			  duration = customDuration;
+			}
 			
 			if (to == slides.length-1) {
 				// setTimeout... called when going to last slide. 
@@ -41,7 +48,7 @@ This module adds automatic control of the deck.
 						timeout: window.setTimeout(function() {
 							$[deck]('go', 0);
 							if (e) e.preventDefault();
-						}, opts.automatic.slideDuration)
+						}, duration)
 					};
 				}
 				else {
@@ -55,7 +62,7 @@ This module adds automatic control of the deck.
 					timeout: window.setTimeout(function() {
 						$[deck]('next');
 						if (e) e.preventDefault();
-					}, opts.automatic.slideDuration)
+					}, duration)
 				};
 			}
 		}
@@ -93,38 +100,60 @@ This module adds automatic control of the deck.
 		}
 	});
 
+  // Lets others detect when slideshow is running automatically
+  $[deck]('extend', 'isRunning', function(){
+    return running;
+  });
+
 	$d.bind('deck.init', function() {
 		var opts = $[deck]('getOptions'),
 		slides = $[deck]('getSlides'),
 		$current = $[deck]('getSlide'),
 		ndx;
 		
+		// Extension function to play the slideshow
+		$[deck]('extend', 'play', function(){
+      var slides = $[deck]('getSlides');
+		  if (slides[slides.length-1] == $[deck]('getSlide')) {
+			  // Stopped on last slide. Clicking to play/pause will rewind to first slide, and play.
+			  $.deck('go', 0);
+		  }
+		  running = true;
+		  $(opts.selectors.automaticLink).addClass(opts.classes.automaticRunning);
+		  $(opts.selectors.automaticLink).removeClass(opts.classes.automaticStopped);
+      $d.trigger('deck.onPlayToggle', true);
+		  $d.trigger('deck.onPlay');
+		  setTimeoutIfNeeded(null, slides.length, 0);
+    });
+    
+    // Extension function to pause the slideshow
+    $[deck]('extend', 'pause', function(){
+      running = false;
+		  $(opts.selectors.automaticLink).addClass(opts.classes.automaticStopped);
+      $(opts.selectors.automaticLink).removeClass(opts.classes.automaticRunning);
+      $d.trigger('deck.onPlayToggle', true);
+      $d.trigger('deck.onPause');
+		  clearAutomaticTimeout();
+    });
+		
 		// Setup initial state
 		if (opts.automatic.startRunning) {
-			$(opts.selectors.automaticLink).addClass(opts.classes.automaticRunning);
+      $[deck]('play');
 		}
 		else {
-			$(opts.selectors.automaticLink).addClass(opts.classes.automaticStopped);
+		  $[deck]('pause');
 		}
 		setTimeoutIfNeeded(null, ndx, 0);
 		
-		// Setup automatic link events
+		// Setup automatic link toggle events
 		$(opts.selectors.automaticLink)
 		.unbind('click.deckautomatic')
 		.bind('click.deckautomatic', function(e) {
-			$(this).toggleClass(opts.classes.automaticRunning + ' ' + opts.classes.automaticStopped);
-			if ($(this).hasClass(opts.classes.automaticRunning)) {
-				// Should start
-				var slides = $[deck]('getSlides');
-				if (slides[slides.length-1] == $[deck]('getSlide')) {
-					// Stopped on last slide. Clicking to play/pause will rewind to first slide, and play.
-					$.deck('go', 0);
-				}
-				setTimeoutIfNeeded(null, slides.length, 0);
+			if (!running) {
+				$[deck]('play');
 			}
 			else {
-				// Should stop
-				clearAutomaticTimeout();
+				$[deck]('pause');
 			}
 		});
 	})
