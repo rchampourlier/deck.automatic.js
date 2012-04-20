@@ -80,6 +80,10 @@ Three events can be emitted when the autoplay status changes.
 * **deck.onPlayToggle**: This event is triggered when the slideshow is either
   played or paused, and a boolean parameter is passed in with a value of true
   if the slideshow is now running or false if it is now paused.
+  
+## TODO
+
+* Allow a secondary way of defining custom slide durations using classes instead of HTML 5 `data-` attribute (as discussed in [issue #1](https://github.com/rchampourlier/deck.automatic.js/issues/1)).
 
 ## License
 
