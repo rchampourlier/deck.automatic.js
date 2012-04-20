@@ -20,7 +20,7 @@ Once the extension is correctly loaded and you've inserted the appropriate contr
 
 3. You may also want to add the `CSS` (`.../extensions/automatic/deck.automatic.css`), even if I'm pretty sure you'd better come with your own (styling is currently very basic).
 
-4. You **MUST** add a `.deck-automatic-link` element to your `.deck-container` element. The extension currently relies on this element to work. If you don't want to display it, you can just hide it through CSS, this won't prevent it from working.
+4. You may add a `.deck-automatic-link` element to your `.deck-container` element if you want a clickable play/pause button.
 
 	For example, you can add: `<div class='deck-automatic-link' title="Play/Pause">Play/Pause</div>` at the end of your `.deck-container` element.
 
@@ -35,7 +35,7 @@ The _automatic_ extension follows deck.js' configuration way. It currently decla
 
 1. `startRunning`: can be `true` or `false`. Determines if the presentation start running as soon as it is loaded, or waits for the user to click on the play/pause button.
 2. `cycle`: `true` or `false`. If `true`, the presentation goes back to slide 1 when it is running and it comes to the last slide.
-3. `slideDuration`: the duration (in milliseconds) during which each slide is displayed.
+3. `slideDuration`: the default duration (in milliseconds) during which each slide is displayed.
 
 You can set these options by adding the following code before the `$.deck('.slide')` line:
 
@@ -65,12 +65,21 @@ You can also change the classes used for the play/pause element through these op
   },
 ```
 
-## TODOs
+## Functions
 
-* **Provide functions on deck to play/pause the presentation ** (such as `$.deck('play')`).
-* Remove the dependency on the control element (`.deck-automatic-link` element within `.deck-container`).
-* **Allow a per-slide configuration of the slide delay** (for example through HTML5 `data-` attributes).
+* **$.deck('play')**: This function will start automatically playing the 
+  slideshow.
+* **$.deck('pause')**: This function will pause the slideshow, if playing.
 
+## Events
+
+Three events can be emitted when the autoplay status changes.
+
+* **deck.onPlay**: This event is triggered when the slideshow is played.
+* **deck.onPause**: This event is triggered when the slideshow is paused.
+* **deck.onPlayToggle**: This event is triggered when the slideshow is either
+  played or paused, and a boolean parameter is passed in with a value of true
+  if the slideshow is now running or false if it is now paused.
 
 ## Known issues
 * Pausing on the last slide will only pause after it cycled back to the first slide (if cycle is enabled).
