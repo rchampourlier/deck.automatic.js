@@ -81,10 +81,6 @@ Three events can be emitted when the autoplay status changes.
   played or paused, and a boolean parameter is passed in with a value of true
   if the slideshow is now running or false if it is now paused.
 
-## Known issues
-* Pausing on the last slide will only pause after it cycled back to the first slide (if cycle is enabled).
-* Restarting from a pause on the one-before-last slide will cycle back to the first slide without playing the last one.
-
 ## License
 
 MIT License
