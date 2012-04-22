@@ -4,18 +4,30 @@
   <script src="deck.js/jquery-1.7.min.js"></script>
   <script src="deck.js/modernizr.custom.js"></script>
   <script src="deck.js/core/deck.core.js"></script>
+  <script src="deck.js/extensions/navigation/deck.navigation.js"></script>
   <script src="../automatic/deck.automatic.js"></script>
   <link rel="stylesheet" type="text/css" href="deck.js/core/deck.core.css"></link>
+  <link rel="stylesheet" type="text/css" href="deck.js/extensions/navigation/deck.navigation.css"></link>
   <link rel="stylesheet" type="text/css" href="../automatic/deck.automatic.css"></link>
 </head>
 <body>
   
   <div class="deck-container">
-    <section class="slide">
+    <section class="slide" data-duration="500">
       <h2>Example slide 1</h2>
       <p>Content for example slide
+      <ul>
+        <li class="slide" data-duration="500">
+          <h3>Internal slide 1</h3>
+          <p>Content</p>
+        </li>
+        <li class="slide" data-duration="500">
+          <h3>Internal slide 2</h3>
+          <p>Content</p>
+        </li>
+      </ul>
     </section>
-    <section class="slide">
+    <section class="slide" data-duration="-1">
       <h2>Example slide 2</h2>
       <p>Content for example slide
     </section>
@@ -27,15 +39,17 @@
       <h2>Example slide 4</h2>
       <p>Content for example slide
     </section>
+    <div class='deck-prev-link' title="previous">Previous</div>
+    <div class='deck-next-link' title="next">Next</div>
     <div class='deck-automatic-link' title="Play/Pause">Play/Pause</div>
   </div>
   <script>
     $(function() {
       $.extend(true, $.deck.defaults, {
          automatic: {
-     			startRunning: false,
+     			startRunning: true,
      			cycle: true,
-     			slideDuration: 1000
+     			slideDuration: -1
      		}
       });
       $.deck('.slide');
