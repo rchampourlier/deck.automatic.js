@@ -38,33 +38,36 @@ This module adds automatic control of the deck.
 			if(customDuration){
 			  duration = customDuration;
 			}
-			
-			if (to == slides.length-1) {
-				// setTimeout... called when going to last slide. 
-				// If cycling, set a timeout to go to first slide, else don't set a timeout, and set
-				// state to stopped.
-				if (opts.automatic.cycle) {
-					$[deck].automatic = {
-						timeout: window.setTimeout(function() {
-							$[deck]('go', 0);
-							if (e) e.preventDefault();
-						}, duration)
-					};
-				}
-				else {
-					$(opts.selectors.automaticLink).removeClass(opts.classes.automaticRunning);
-					$(opts.selectors.automaticLink).addClass(opts.classes.automaticStopped);
-				}
-			}
-			else {
-				// Running, not yet on last slide.
-				$[deck].automatic = {
-					timeout: window.setTimeout(function() {
-						$[deck]('next');
-						if (e) e.preventDefault();
-					}, duration)
-				};
-			}
+
+      // If duration is negative, don't set a timeout
+			if(duration >= 0){
+			  if (to == slides.length-1) {
+				  // setTimeout... called when going to last slide. 
+				  // If cycling, set a timeout to go to first slide, else don't set a timeout, and set
+				  // state to stopped.
+				  if (opts.automatic.cycle) {
+					  $[deck].automatic = {
+						  timeout: window.setTimeout(function() {
+							  $[deck]('go', 0);
+							  if (e) e.preventDefault();
+						  }, duration)
+					  };
+				  }
+				  else {
+					  $(opts.selectors.automaticLink).removeClass(opts.classes.automaticRunning);
+					  $(opts.selectors.automaticLink).addClass(opts.classes.automaticStopped);
+				  }
+			  }
+			  else {
+				  // Running, not yet on last slide.
+				  $[deck].automatic = {
+					  timeout: window.setTimeout(function() {
+						  $[deck]('next');
+						  if (e) e.preventDefault();
+					  }, duration)
+				  };
+			  }
+      }
 		}
 	};
 	

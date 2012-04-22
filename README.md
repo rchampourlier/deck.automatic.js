@@ -27,7 +27,9 @@ Once the extension is correctly loaded and you've inserted the appropriate contr
 5. Custom slide durations may be specified with a custom data-duration
   attribute specified in milliseconds
   (`<div class="slide" data-duration="5000">content</div>`). This attribute
-  overrides the default slide duration.
+  overrides the default slide duration. Negative values for either custom duration
+  or default duration disable automatic advancing for the slides they apply
+  to.
 	
 ## Configuration
 
