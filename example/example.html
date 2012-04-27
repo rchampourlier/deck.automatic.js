@@ -13,19 +13,27 @@
   <div class="deck-container">
     <section class="slide">
       <h2>Example slide 1</h2>
-      <p>Content for example slide
+      <p>Content for example slide</p>
     </section>
     <section class="slide">
       <h2>Example slide 2</h2>
-      <p>Content for example slide
+      <p>Content for example slide</p>
     </section>
     <section class="slide" data-duration="3000">
       <h2>Example slide 3</h2>
-      <p>Content for example slide
+      <p>Content for example slide</p>
     </section>
     <section class="slide">
       <h2>Example slide 4</h2>
-      <p>Content for example slide
+      <ul>
+        <li class="slide bullet-point-timing">Point 1</li>
+        <li class="slide bullet-point-timing">Point 2</li>
+        <li class="slide bullet-point-timing">Point 3</li>
+      </ul>
+    </section>
+    <section class="slide">
+      <h2>Example slide 5</h2>
+      <p>Content for example slide</p>
     </section>
     <div class='deck-automatic-link' title="Play/Pause">Play/Pause</div>
   </div>
@@ -36,10 +44,15 @@
      			startRunning: false,
      			cycle: true,
      			slideDuration: 1000
-     		}
+     		},
+     		classdata: {
+		      'bullet-point-timing': {
+		        duration: 500
+		      }
+		    }
       });
       $.deck('.slide');
     })
-  </script
+  </script>
 </body>
 </html>
