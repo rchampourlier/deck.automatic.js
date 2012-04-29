@@ -30,18 +30,29 @@ This module adds automatic control of the deck.
 
 		if (running) {
 			// Slideshow running.
-			
-			var slides = $[deck]('getSlides');
+
+			var elem = $[deck]('getSlide', to);
 			
 			var duration = opts.automatic.slideDuration;
-			var customDuration = $[deck]('getSlide', to).attr("data-duration");
+
+      // Iterate over element's classes to
+      // match against classdata
+      $.each(elem.attr('class').split(/\s+/), function(idx, cls){
+        $.each(opts.classdata, function(feat_cls, features){
+          if(cls == feat_cls && features.duration){
+            duration = features.duration;
+          }
+        });
+      });
+
+			var customDuration = elem.attr('data-duration');
 			if(customDuration){
 			  duration = customDuration;
 			}
 
       // If duration is negative, don't set a timeout
-			if (duration >= 0) {
-			  if (to == slides.length-1) {
+			if(duration >= 0){
+			  if (to == $[deck]('getSlides').length-1) {
 				  // setTimeout... called when going to last slide. 
 				  // If cycling, set a timeout to go to first slide, else don't set a timeout, and set
 				  // state to stopped.
@@ -94,6 +105,16 @@ This module adds automatic control of the deck.
 		
 		selectors: {
 			automaticLink: '.deck-automatic-link'
+		},
+		
+		classdata: {
+		/* // Example duration class-feature
+		 * // Sets the duration of all elements with
+		 * // bullet-point-timing class to 500ms.
+		 * 'bullet-point-timing': {
+		 *   duration: 500
+	   * }
+	   */
 		},
 		
 		automatic: {
